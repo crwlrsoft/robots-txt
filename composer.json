@@ -1,0 +1,53 @@
+{
+    "name": "crwlr/robots-txt",
+    "description": "Robots Exclusion Standard/Protocol Parser for Web Crawling/Scraping",
+    "keywords": [
+        "crwlr",
+        "robots.txt",
+        "robots",
+        "exclusion",
+        "standard",
+        "protocol",
+        "parser",
+        "crawler",
+        "bot",
+        "bots",
+        "spider",
+        "scraper",
+        "scraping"
+    ],
+    "homepage": "https://www.crwlr.software/packages/robots",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Christian Olear",
+            "homepage": "https://www.otsch.codes",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/crwlrsoft/robots-txt/issues",
+        "source": "https://github.com/crwlrsoft/robots-txt",
+        "docs": "https://www.crwlr.software/packages/robots-txt"
+    },
+    "require": {
+        "php": "^7.4|^8.0",
+        "crwlr/url": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0",
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "sempro/phpunit-pretty-print": "^1.4",
+        "mockery/mockery": "^1.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Crwlr\\RobotsTxt\\": "src"
+        }
+    },
+    "scripts": {
+        "test": "@php vendor/bin/phpunit",
+        "cs": "PHP_CS_FIXER_IGNORE_ENV=1 php vendor/bin/php-cs-fixer fix -v --diff --dry-run --allow-risky=yes",
+        "add-git-hooks": "@php bin/add-git-hooks"
+    }
+}
