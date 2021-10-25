@@ -10,15 +10,20 @@ function handleFail($output, $returnCode) {
     }
 }
 
-echo "Running tests.. ";
+echo "Running tests..\n";
 exec('composer test', $output, $returnCode);
 handleFail($output, $returnCode);
 
-echo "Running php-cs-fixer.. ";
+// Show summary (last line)
+echo "Result summary:\n";
+echo array_pop($output) . PHP_EOL;
+
+echo "Running php-cs-fixer..\n";
 exec('composer cs', $output, $returnCode);
 handleFail($output, $returnCode);
 
 // Show summary (last line)
+echo "Result summary:\n";
 echo array_pop($output) . PHP_EOL;
 
 exit(0);
