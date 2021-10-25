@@ -25,7 +25,7 @@ use Crwlr\RobotsTxt\RobotsTxt;
 $robotsTxtContent = file_get_contents('https://www.crwlr.software/robots.txt');
 $robotsTxt = RobotsTxt::parse($robotsTxtContent);
 
-$robotsTxt->isAllowed('/packages');
+$robotsTxt->isAllowed('/packages', 'MyBotName');
 ```
 
 You can also check with an absolute url.  
@@ -34,5 +34,5 @@ absolute url is the same as the robots.txt file was on (because it
 doesn't know the host where it's on, you just give it the content).
 
 ```php
-$robotsTxt->isAllowed('https://www.crwlr.software/packages');
+$robotsTxt->isAllowed('https://www.crwlr.software/packages', 'MyBotName');
 ```
