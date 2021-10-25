@@ -94,11 +94,17 @@ final class Parser
 
     private function addRuleToUserAgentGroup(string $line, UserAgentGroup $userAgentGroup): void
     {
+        $rulePattern = $this->getPatternFromRuleLine($line);
+
+        if (empty($rulePattern)) {
+            return;
+        }
+
         if ($this->isDisallowLine($line)) {
-            $rulePattern = new RulePattern($this->getPatternFromRuleLine($line));
+            $rulePattern = new RulePattern($rulePattern);
             $userAgentGroup->addDisallowedPattern($rulePattern);
         } elseif ($this->isAllowLine($line)) {
-            $rulePattern = new RulePattern($this->getPatternFromRuleLine($line));
+            $rulePattern = new RulePattern($rulePattern);
             $userAgentGroup->addAllowedPattern($rulePattern);
         }
     }

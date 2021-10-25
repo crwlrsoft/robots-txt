@@ -21,6 +21,25 @@ ROBOTSTXT;
         (new Parser())->parse($robotsTxtContent);
     }
 
+    public function test_dont_add_rule_when_pattern_is_empty_string(): void
+    {
+        $robotsTxtContent = <<<ROBOTSTXT
+User-Agent: *
+Disallow:
+ROBOTSTXT;
+
+        $robotsTxt = (new Parser())->parse($robotsTxtContent);
+
+        $this->assertCount(1, $robotsTxt->groups());
+
+        $group1 = $robotsTxt->groups()[0];
+        $this->assertCount(1, $group1->userAgents());
+        $this->assertEquals(['*'], $group1->userAgents());
+        $this->assertCount(0, $group1->disallowedPatterns());
+        $this->assertEmpty($group1->disallowedPatterns());
+        $this->assertEmpty($group1->allowedPatterns());
+    }
+
     public function test_parse_one_group_with_single_user_agent(): void
     {
         $robotsTxtContent = <<<ROBOTSTXT
