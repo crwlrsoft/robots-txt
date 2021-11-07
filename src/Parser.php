@@ -47,7 +47,7 @@ final class Parser
     }
 
     /**
-     * @param array $lines
+     * @param array|string[] $lines
      * @param int $lineNumber
      * @return string|null
      */
@@ -80,6 +80,9 @@ final class Parser
         return preg_match('/^\s?allow\s?:/i', $line) === 1;
     }
 
+    /**
+     * @param array|string[] $lines
+     */
     private function makeUserAgentGroup(array $lines, string $line, int &$lineNumber): UserAgentGroup
     {
         $userAgents = [$this->getUserAgentFromLine($line)];

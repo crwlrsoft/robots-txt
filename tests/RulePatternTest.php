@@ -8,13 +8,13 @@ use PHPUnit\Framework\TestCase;
 
 final class RulePatternTest extends TestCase
 {
-    public function test_it_returns_the_raw_pattern()
+    public function test_it_returns_the_raw_pattern(): void
     {
         $pattern = new RulePattern('/fo%6F/*/baz$');
         $this->assertEquals('/fo%6F/*/baz$', $pattern->pattern());
     }
 
-    public function test_matches_accepts_only_string_or_url_object_as_param()
+    public function test_matches_accepts_only_string_or_url_object_as_param(): void
     {
         $this->assertTrue((new RulePattern('/foo'))->matches('/foo'));
         $this->assertTrue((new RulePattern('/foo'))->matches(Url::parse('/foo')));
@@ -58,7 +58,7 @@ final class RulePatternTest extends TestCase
         $this->assertFalse($pattern->matches('/foo/bar/baz'));
     }
 
-    public function test_match_with_uri_that_has_percent_encoded_ascii_characters()
+    public function test_match_with_uri_that_has_percent_encoded_ascii_characters(): void
     {
         $pattern = new RulePattern('/foo/bar');
         $this->assertTrue($pattern->matches('/foo/b%61r'));

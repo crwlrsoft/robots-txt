@@ -15,8 +15,20 @@ final class Encoding
      */
     public static function decodePercentEncodedAsciiCharactersInPath(string $path): string
     {
-        return preg_replace_callback('/%[0-9A-Fa-f][0-9A-Fa-f]/', function ($match) {
+        $decoded = preg_replace_callback('/%[0-9A-Fa-f][0-9A-Fa-f]/', function ($match) {
             return rawurlencode(rawurldecode($match[0]));
         }, $path);
+
+        if ($decoded === null) {
+            trigger_error(
+                "Failed to Decode percent encoded ASCII characters. Preg error: \n" . preg_last_error() . ": " .
+                    preg_last_error_msg(),
+                E_USER_WARNING
+            );
+
+            return $path;
+        }
+
+        return $decoded;
     }
 }

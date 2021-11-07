@@ -65,16 +65,25 @@ final class UserAgentGroup
         return $this->isAllowedByMostSpecificMatch($matchingDisallowedPatterns, $matchingAllowedPatterns);
     }
 
+    /**
+     * @return array|string[]
+     */
     public function userAgents(): array
     {
         return $this->userAgents;
     }
 
+    /**
+     * @return array|RulePattern[]
+     */
     public function disallowedPatterns(): array
     {
         return $this->disallowedPatterns;
     }
 
+    /**
+     * @return array|RulePattern[]
+     */
     public function allowedPatterns(): array
     {
         return $this->allowedPatterns;
@@ -126,12 +135,20 @@ final class UserAgentGroup
     /**
      * https://datatracker.ietf.org/doc/draft-koster-rep/
      * 2.2.2.
-     * "The most specific match found MUST be used.  The most specific match is the match that has the most octets.
+     * "The most specific match found MUST be used. The most specific match is the match that has the most octets.
      * If an allow and disallow rule is equivalent, the allow SHOULD be used."
+     *
+     * @param array|RulePattern[] $disallowedPatterns
+     * @param array|RulePattern[] $allowedPatterns
      */
     private function isAllowedByMostSpecificMatch(array $disallowedPatterns, array $allowedPatterns): bool
     {
         $mostSpecificMatch = reset($allowedPatterns);
+
+        if (!$mostSpecificMatch) { // There is no matching allowed pattern.
+            return empty($disallowedPatterns);
+        }
+
         $maxStrLen = strlen($mostSpecificMatch->pattern());
 
         foreach ($allowedPatterns as $pattern) {
