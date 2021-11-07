@@ -2,6 +2,7 @@
 
 namespace Crwlr\RobotsTxt;
 
+use Crwlr\RobotsTxt\Exceptions\InvalidRobotsTxtFileException;
 use InvalidArgumentException;
 
 final class RobotsTxt
@@ -27,6 +28,9 @@ final class RobotsTxt
         $this->userAgentGroups = $userAgentGroups;
     }
 
+    /**
+     * @throws InvalidRobotsTxtFileException
+     */
     public static function parse(string $robotsTxtContent): RobotsTxt
     {
         return (new Parser())->parse($robotsTxtContent);

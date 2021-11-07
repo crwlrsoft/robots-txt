@@ -2,7 +2,6 @@
 
 namespace Crwlr\RobotsTxt;
 
-use Crwlr\RobotsTxt\Exceptions\EncodingException;
 use Crwlr\Url\Url;
 use InvalidArgumentException;
 
