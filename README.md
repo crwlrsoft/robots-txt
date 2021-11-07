@@ -1,9 +1,6 @@
 # Robots Exclusion Standard/Protocol Parser
 ## for Web Crawling/Scraping
 
-ℹ️ This is currently still __work in progress__, but will receive a 
-first tag and will be registered on packagist very soon.
-
 Use this library within crawler/scraper programs to parse robots.txt
 files and check if your crawler user-agent is allowed to load certain
 paths.
