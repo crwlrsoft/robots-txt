@@ -38,7 +38,8 @@
         "phpunit/phpunit": "^9.0",
         "friendsofphp/php-cs-fixer": "^3.0",
         "sempro/phpunit-pretty-print": "^1.4",
-        "mockery/mockery": "^1.4"
+        "mockery/mockery": "^1.4",
+        "phpstan/phpstan": "^1.1"
     },
     "autoload": {
         "psr-4": {
@@ -48,6 +49,7 @@
     "scripts": {
         "test": "@php vendor/bin/phpunit",
         "cs": "PHP_CS_FIXER_IGNORE_ENV=1 php vendor/bin/php-cs-fixer fix -v --diff --dry-run --allow-risky=yes",
+        "stan": "@php vendor/bin/phpstan analyse -c phpstan.neon",
         "add-git-hooks": "@php bin/add-git-hooks"
     }
 }

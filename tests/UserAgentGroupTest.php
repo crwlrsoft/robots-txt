@@ -18,6 +18,7 @@ final class UserAgentGroupTest extends TestCase
     public function test_throws_exception_when_constructor_argument_array_contains_non_string_value(): void
     {
         $this->expectException(InvalidArgumentException::class);
+        /* @phpstan-ignore-next-line  We're just testing that an Exception is thrown in that case */
         new UserAgentGroup(['foo', 'bar', 123]);
     }
 
@@ -105,12 +106,12 @@ final class UserAgentGroupTest extends TestCase
     }
 
 
-    private function addDisallowedRulePattern(string $pattern)
+    private function addDisallowedRulePattern(string $pattern): void
     {
         $this->userAgentGroup->addDisallowedPattern(new RulePattern($pattern));
     }
 
-    private function addAllowedRulePattern(string $pattern)
+    private function addAllowedRulePattern(string $pattern): void
     {
         $this->userAgentGroup->addAllowedPattern(new RulePattern($pattern));
     }

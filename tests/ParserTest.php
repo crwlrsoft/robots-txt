@@ -322,7 +322,7 @@ ROBOTSTXT;
      * @param string[] $expected
      * @param RulePattern[] $actual
      */
-    private function assertArrayOfPatterns(array $expected, array $actual)
+    private function assertArrayOfPatterns(array $expected, array $actual): void
     {
         foreach ($expected as $key => $value) {
             $this->assertEquals($value, $actual[$key]->pattern());

@@ -20,6 +20,9 @@ final class RulePattern
         return $this->rawPattern;
     }
 
+    /**
+     * @param string|Url|mixed $uri
+     */
     public function matches($uri): bool
     {
         if (!$uri instanceof Url && !is_string($uri)) {
@@ -27,6 +30,11 @@ final class RulePattern
         }
 
         $path = $uri instanceof Url ? $uri->path() : Url::parse($uri)->path();
+
+        if (!is_string($path)) {
+            return false;
+        }
+
         $path = Encoding::decodePercentEncodedAsciiCharactersInPath($path);
 
         return preg_match($this->preparedRegexPattern(), $path) === 1;
