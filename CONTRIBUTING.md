@@ -32,14 +32,6 @@ This package follows the
 [PSR-12](https://www.php-fig.org/psr/psr-12/) coding standard.
 Linting can be executed using the `composer cs` command.
 
-### Branching
-
-The repo contains branches for every minor version and a master
-branch up to date with the latest tagged version. For a bugfix
-please send your pull request to the branch of the latest version
-affected by the issue. If you're developing a new feature, branch
-out from the master branch.
-
 ### CI
 
 When you're making changes to this package please always run
