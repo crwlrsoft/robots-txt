@@ -318,6 +318,33 @@ ROBOTSTXT;
         $this->assertArrayOfPatterns(['/hidden-for-most-bots'], $group3->allowedPatterns());
     }
 
+    public function test_parse_sitemap_lines(): void
+    {
+        $robotsTxtContent = <<<ROBOTSTXT
+User-Agent: *
+Disallow: 
+
+User-Agent: BadBot
+Disallow: /
+
+Sitemap: https://www.example.com/sitemap1.xml
+sitemap: https://www.example.com/sitemap2.xml
+
+ Sitemap: https://www.example.org/sitemap3.xml
+
+ROBOTSTXT;
+
+        $robotsTxt = (new Parser())->parse($robotsTxtContent);
+
+        $this->assertCount(3, $robotsTxt->sitemaps());
+
+        $this->assertEquals([
+            'https://www.example.com/sitemap1.xml',
+            'https://www.example.com/sitemap2.xml',
+            'https://www.example.org/sitemap3.xml',
+        ], $robotsTxt->sitemaps());
+    }
+
     /**
      * @param string[] $expected
      * @param RulePattern[] $actual

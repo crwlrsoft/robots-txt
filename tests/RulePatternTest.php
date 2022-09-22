@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Crwlr\RobotsTxt\RulePattern;
-use Crwlr\Url\Url;
 use PHPUnit\Framework\TestCase;
 
 final class RulePatternTest extends TestCase
@@ -12,15 +11,6 @@ final class RulePatternTest extends TestCase
     {
         $pattern = new RulePattern('/fo%6F/*/baz$');
         $this->assertEquals('/fo%6F/*/baz$', $pattern->pattern());
-    }
-
-    public function test_matches_accepts_only_string_or_url_object_as_param(): void
-    {
-        $this->assertTrue((new RulePattern('/foo'))->matches('/foo'));
-        $this->assertTrue((new RulePattern('/foo'))->matches(Url::parse('/foo')));
-
-        $this->expectException(InvalidArgumentException::class);
-        (new RulePattern('/foo'))->matches(123);
     }
 
     public function test_match_an_exact_match(): void

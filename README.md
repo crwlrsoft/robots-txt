@@ -1,3 +1,5 @@
+<p align="center"><a href="https://www.crwlr.software" target="_blank"><img src="https://github.com/crwlrsoft/graphics/blob/eee6cf48ee491b538d11b9acd7ee71fbcdbe3a09/crwlr-logo.png" alt="crwlr.software logo" width="260"></a></p>
+
 # Robots Exclusion Standard/Protocol Parser
 ## for Web Crawling/Scraping
 
@@ -5,34 +7,9 @@ Use this library within crawler/scraper programs to parse robots.txt
 files and check if your crawler user-agent is allowed to load certain
 paths.
 
-## Requirements
+## Documentation
+You can find the documentation at [crwlr.software](https://www.crwlr.software/packages/robots-txt/getting-started).
 
-Requires PHP version 7.4 or above.
+## Contributing
 
-## Installation
-
-Install the latest version with:
-
-```sh
-composer require crwlr/robots-txt
-```
-
-## Usage
-
-```php
-use Crwlr\RobotsTxt\RobotsTxt;
-
-$robotsTxtContent = file_get_contents('https://www.crwlr.software/robots.txt');
-$robotsTxt = RobotsTxt::parse($robotsTxtContent);
-
-$robotsTxt->isAllowed('/packages', 'MyBotName');
-```
-
-You can also check with an absolute url.  
-But attention: the library won't (/can't) check if the host of your
-absolute url is the same as the robots.txt file was on (because it
-doesn't know the host where it's on, you just give it the content).
-
-```php
-$robotsTxt->isAllowed('https://www.crwlr.software/packages', 'MyBotName');
-```
+If you consider contributing something to this package, read the [contribution guide (CONTRIBUTING.md)](CONTRIBUTING.md).

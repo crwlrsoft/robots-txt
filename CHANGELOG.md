@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2022-09-22
+### Changed
+- Required PHP version is now 8.0.
+
+### Added
+- It now also parses `Sitemap:` lines. You can get all referenced sitemaps via the `sitemaps()` method of the `RobotsTxt` class.
+
 ## [0.1.2] - 2022-09-16
 ### Fixed
 - Also allow usage of crwlr/url 1.0 as it's not a problem at all and the PHP version requirement of this package is still `^7.4|^8.0`.

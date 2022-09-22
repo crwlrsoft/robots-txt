@@ -3,7 +3,7 @@
 namespace Crwlr\RobotsTxt;
 
 use Crwlr\Url\Url;
-use InvalidArgumentException;
+use Exception;
 
 final class RulePattern
 {
@@ -21,14 +21,10 @@ final class RulePattern
     }
 
     /**
-     * @param string|Url|mixed $uri
+     * @throws Exception
      */
-    public function matches($uri): bool
+    public function matches(string|Url $uri): bool
     {
-        if (!$uri instanceof Url && !is_string($uri)) {
-            throw new InvalidArgumentException('Argument $uri must be a string or instance of Crwlr\Url.');
-        }
-
         $path = $uri instanceof Url ? $uri->path() : Url::parse($uri)->path();
 
         if (!is_string($path)) {

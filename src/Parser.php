@@ -7,14 +7,12 @@ use Crwlr\RobotsTxt\Exceptions\InvalidRobotsTxtFileException;
 final class Parser
 {
     /**
-     * @param string $robotsTxtContent
-     * @return RobotsTxt
      * @throws InvalidRobotsTxtFileException
      */
     public function parse(string $robotsTxtContent): RobotsTxt
     {
         $lines = explode("\n", $robotsTxtContent);
-        $userAgentGroups = [];
+        $userAgentGroups = $sitemaps = [];
 
         for ($lineNumber = 0; $lineNumber < count($lines); $lineNumber++) {
             $line = $this->getLine($lines, $lineNumber);
@@ -31,15 +29,17 @@ final class Parser
 
                 $this->addRuleToUserAgentGroup($line, $userAgentGroup);
             }
+
+            if ($this->isSitemapLine($line)) {
+                $sitemaps[] = $this->getSitemapFromLine($line);
+            }
         }
 
-        return new RobotsTxt($userAgentGroups);
+        return new RobotsTxt($userAgentGroups, $sitemaps);
     }
 
     /**
      * @param string[] $lines
-     * @param int $lineNumber
-     * @return string
      */
     private function getLine(array $lines, int $lineNumber): string
     {
@@ -47,9 +47,7 @@ final class Parser
     }
 
     /**
-     * @param array|string[] $lines
-     * @param int $lineNumber
-     * @return string|null
+     * @param string[] $lines
      */
     private function getNextLine(array $lines, int $lineNumber): ?string
     {
@@ -70,6 +68,11 @@ final class Parser
         return $this->isDisallowLine($line) || $this->isAllowLine($line);
     }
 
+    private function isSitemapLine(string $line): bool
+    {
+        return preg_match('/^\s?sitemap\s?:/i', $line) === 1;
+    }
+
     private function isDisallowLine(string $line): bool
     {
         return preg_match('/^\s?disallow\s?:/i', $line) === 1;
@@ -81,7 +84,7 @@ final class Parser
     }
 
     /**
-     * @param array|string[] $lines
+     * @param string[] $lines
      */
     private function makeUserAgentGroup(array $lines, string $line, int &$lineNumber): UserAgentGroup
     {
@@ -112,11 +115,12 @@ final class Parser
         }
     }
 
-    /**
-     * @param string $line
-     * @return string
-     */
     private function getUserAgentFromLine(string $line): string
+    {
+        return $this->getStringAfterFirstColon($line);
+    }
+
+    private function getSitemapFromLine(string $line): string
     {
         return $this->getStringAfterFirstColon($line);
     }
