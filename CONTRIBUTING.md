@@ -37,7 +37,7 @@ Linting can be executed using the `composer cs` command.
 When you're making changes to this package please always run
 unit tests, CS Fixer and PHPStan. Commands:  
 `composer test`  
-`composer cs`
+`composer cs` or `composer cs-fix`
 `composer stan`
 
 Ideally you add the pre-commit git hook that is shipped with
@@ -45,7 +45,7 @@ this repo that will run tests and linting. Add it to your local
 clone by running:  
 `composer add-git-hooks`
 
-Also please don't forget to add new test cases if necessary.
+Also, please don't forget to add new test cases if necessary.
 
 ### Documentation
 
@@ -56,5 +56,5 @@ For any code change please don't forget to add an entry to the
 ## Appreciation
 
 When your pull request is merged I will show some love and tweet
-about it. Also if you meet me in person I will be glad to buy you
+about it. Also, if you meet me in person I will be glad to buy you
 a beer.

@@ -3,19 +3,16 @@
 namespace Crwlr\RobotsTxt;
 
 use Crwlr\RobotsTxt\Exceptions\InvalidRobotsTxtFileException;
+use Exception;
 use InvalidArgumentException;
 
 final class RobotsTxt
 {
     /**
-     * @var array|UserAgentGroup[]
+     * @param UserAgentGroup[] $userAgentGroups
+     * @param string[] $sitemaps
      */
-    private array $userAgentGroups = [];
-
-    /**
-     * @param array|UserAgentGroup[] $userAgentGroups
-     */
-    public function __construct(array $userAgentGroups)
+    public function __construct(private array $userAgentGroups, private array $sitemaps = [])
     {
         foreach ($userAgentGroups as $userAgentGroup) {
             if (!$userAgentGroup instanceof UserAgentGroup) {
@@ -24,8 +21,6 @@ final class RobotsTxt
                 );
             }
         }
-
-        $this->userAgentGroups = $userAgentGroups;
     }
 
     /**
@@ -37,13 +32,24 @@ final class RobotsTxt
     }
 
     /**
-     * @return array|UserAgentGroup[]
+     * @return UserAgentGroup[]
      */
     public function groups(): array
     {
         return $this->userAgentGroups;
     }
 
+    /**
+     * @return string[]
+     */
+    public function sitemaps(): array
+    {
+        return $this->sitemaps;
+    }
+
+    /**
+     * @throws Exception
+     */
     public function isAllowed(string $uri, string $userAgent): bool
     {
         $matchingGroups = $this->getGroupsMatchingUserAgent($userAgent);
@@ -61,7 +67,7 @@ final class RobotsTxt
     /**
      * Find all groups that match a certain user agent string.
      *
-     * @return array|UserAgentGroup[]
+     * @return UserAgentGroup[]
      */
     private function getGroupsMatchingUserAgent(string $userAgent): array
     {
@@ -77,7 +83,7 @@ final class RobotsTxt
     }
 
     /**
-     * @param array|UserAgentGroup[] $groups
+     * @param UserAgentGroup[] $groups
      */
     private function combineGroups(array $groups): UserAgentGroup
     {

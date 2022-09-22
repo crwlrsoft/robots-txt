@@ -3,37 +3,31 @@
 namespace Crwlr\RobotsTxt;
 
 use Crwlr\Url\Url;
+use Exception;
 use InvalidArgumentException;
 
 final class UserAgentGroup
 {
     /**
-     * @var array|string[]
-     */
-    private array $userAgents;
-
-    /**
-     * @var array|RulePattern[]
+     * @var RulePattern[]
      */
     private array $disallowedPatterns = [];
 
     /**
-     * @var array|RulePattern[]
+     * @var RulePattern[]
      */
     private array $allowedPatterns = [];
 
     /**
-     * @param array|string[] $userAgents
+     * @param string[] $userAgents
      */
-    public function __construct(array $userAgents)
+    public function __construct(private array $userAgents)
     {
         foreach ($userAgents as $userAgent) {
             if (!is_string($userAgent)) {
                 throw new InvalidArgumentException('Argument $userAgents must exclusively contain user agent strings.');
             }
         }
-
-        $this->userAgents = $userAgents;
     }
 
     public function contains(string $userAgent): bool
@@ -47,6 +41,9 @@ final class UserAgentGroup
         return false;
     }
 
+    /**
+     * @throws Exception
+     */
     public function isAllowed(string $uri): bool
     {
         $uri = Url::parse($uri);
@@ -66,7 +63,7 @@ final class UserAgentGroup
     }
 
     /**
-     * @return array|string[]
+     * @return string[]
      */
     public function userAgents(): array
     {
@@ -74,7 +71,7 @@ final class UserAgentGroup
     }
 
     /**
-     * @return array|RulePattern[]
+     * @return RulePattern[]
      */
     public function disallowedPatterns(): array
     {
@@ -82,7 +79,7 @@ final class UserAgentGroup
     }
 
     /**
-     * @return array|RulePattern[]
+     * @return RulePattern[]
      */
     public function allowedPatterns(): array
     {
@@ -100,7 +97,8 @@ final class UserAgentGroup
     }
 
     /**
-     * @return array|RulePattern[]
+     * @return RulePattern[]
+     * @throws Exception
      */
     private function getMatchingDisallowedPatterns(Url $url): array
     {
@@ -108,7 +106,8 @@ final class UserAgentGroup
     }
 
     /**
-     * @return array|RulePattern[]
+     * @return RulePattern[]
+     * @throws Exception
      */
     private function getMatchingAllowedPatterns(Url $url): array
     {
@@ -116,8 +115,9 @@ final class UserAgentGroup
     }
 
     /**
-     * @param array|RulePattern[] $patterns
-     * @return array|RulePattern[]
+     * @param RulePattern[] $patterns
+     * @return RulePattern[]
+     * @throws Exception
      */
     private function getMatchingPatterns(Url $url, array $patterns): array
     {
@@ -138,8 +138,8 @@ final class UserAgentGroup
      * "The most specific match found MUST be used. The most specific match is the match that has the most octets.
      * If an allow and disallow rule is equivalent, the allow SHOULD be used."
      *
-     * @param array|RulePattern[] $disallowedPatterns
-     * @param array|RulePattern[] $allowedPatterns
+     * @param RulePattern[] $disallowedPatterns
+     * @param RulePattern[] $allowedPatterns
      */
     private function isAllowedByMostSpecificMatch(array $disallowedPatterns, array $allowedPatterns): bool
     {
