@@ -115,4 +115,26 @@ final class RobotsTxtTest extends TestCase
 
         $this->assertFalse($robotsTxt->isAllowed('/foo/bar', 'FooBot'));
     }
+
+    public function test_is_explicitly_not_allowed_for_returns_true_when_a_disallow_rule_is_for_explicit_user_agent(): void
+    {
+        $group = new UserAgentGroup(['FooBot']);
+
+        $group->addDisallowedPattern(new RulePattern('/foo'));
+
+        $robotsTxt = new RobotsTxt([$group]);
+
+        $this->assertTrue($robotsTxt->isExplicitlyNotAllowedFor('/foo/bar', 'FooBot'));
+    }
+
+    public function test_is_explicitly_not_allowed_for_returns_false_when_the_group_of_a_disallow_rule_contains_wildcard_user_agent(): void
+    {
+        $group = new UserAgentGroup(['BarBot', '*']);
+
+        $group->addDisallowedPattern(new RulePattern('/foo'));
+
+        $robotsTxt = new RobotsTxt([$group]);
+
+        $this->assertFalse($robotsTxt->isExplicitlyNotAllowedFor('/foo/bar', 'FooBot'));
+    }
 }

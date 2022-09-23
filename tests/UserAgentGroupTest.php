@@ -43,6 +43,20 @@ final class UserAgentGroupTest extends TestCase
         $this->assertTrue($userAgentGroup->contains('FOOBOT'));
     }
 
+    public function test_contains_returns_true_when_wildcard_is_in_group(): void
+    {
+        $userAgentGroup = new UserAgentGroup(['*', 'barbot']);
+
+        $this->assertTrue($userAgentGroup->contains('foobot'));
+    }
+
+    public function test_contains_return_false_when_wildcard_is_in_group_but_arg_include_wildcard_is_set_to_false(): void
+    {
+        $userAgentGroup = new UserAgentGroup(['*', 'barbot']);
+
+        $this->assertFalse($userAgentGroup->contains('foobot', false));
+    }
+
     public function test_adding_a_disallow_rule_pattern(): void
     {
         $rulePattern = new RulePattern('/foo/bar');

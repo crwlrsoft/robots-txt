@@ -30,10 +30,16 @@ final class UserAgentGroup
         }
     }
 
-    public function contains(string $userAgent): bool
+    /**
+     * @param bool $includeWildcard  Set to false if wildcard (*) should not count (user agent explicitly in group)
+     */
+    public function contains(string $userAgent, bool $includeWildcard = true): bool
     {
         foreach ($this->userAgents as $groupUserAgent) {
-            if ($groupUserAgent === '*' || strtolower($groupUserAgent) === strtolower($userAgent)) {
+            if (
+                ($includeWildcard && $groupUserAgent === '*') ||
+                strtolower($groupUserAgent) === strtolower($userAgent)
+            ) {
                 return true;
             }
         }

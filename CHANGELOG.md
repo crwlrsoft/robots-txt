@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2022-09-23
+### Added
+- Method `isExplicitlyNotAllowedFor()` that ignores rules for wildcard user-agent (`*`) and checks if some path is explicitly not allowed for a certain user-agent.
+
 ## [1.0.0] - 2022-09-22
 ### Changed
 - Required PHP version is now 8.0.
