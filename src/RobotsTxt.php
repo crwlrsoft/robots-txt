@@ -65,16 +65,35 @@ final class RobotsTxt
     }
 
     /**
+     * @throws Exception
+     */
+    public function isExplicitlyNotAllowedFor(string $uri, string $userAgent): bool
+    {
+        $matchingGroups = $this->getGroupsMatchingUserAgent($userAgent, false);
+
+        $groupCount = count($matchingGroups);
+
+        if ($groupCount === 0) {
+            return false;
+        }
+
+        $group = $groupCount === 1 ? $matchingGroups[0] : $this->combineGroups($matchingGroups);
+
+        return !$group->isAllowed($uri);
+    }
+
+    /**
      * Find all groups that match a certain user agent string.
      *
+     * @param bool $includeWildcard  Set to false if wildcard (*) should not count (user agent explicitly in group)
      * @return UserAgentGroup[]
      */
-    private function getGroupsMatchingUserAgent(string $userAgent): array
+    private function getGroupsMatchingUserAgent(string $userAgent, bool $includeWildcard = true): array
     {
         $matchingGroups = [];
 
         foreach ($this->groups() as $group) {
-            if ($group->contains($userAgent)) {
+            if ($group->contains($userAgent, $includeWildcard)) {
                 $matchingGroups[] = $group;
             }
         }
