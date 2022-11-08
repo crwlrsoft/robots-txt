@@ -12,11 +12,11 @@ final class ParserTest extends TestCase
     public function test_it_throws_an_exception_when_there_is_a_rule_line_before_any_user_agent_line(): void
     {
         $robotsTxtContent = <<<ROBOTSTXT
-Disallow: ./foo.html
+            Disallow: ./foo.html
 
-User-Agent: ExampleBot
-Disallow: ./bar.html
-ROBOTSTXT;
+            User-Agent: ExampleBot
+            Disallow: ./bar.html
+            ROBOTSTXT;
         $this->expectException(InvalidRobotsTxtFileException::class);
         (new Parser())->parse($robotsTxtContent);
     }
@@ -24,9 +24,9 @@ ROBOTSTXT;
     public function test_dont_add_rule_when_pattern_is_empty_string(): void
     {
         $robotsTxtContent = <<<ROBOTSTXT
-User-Agent: *
-Disallow:
-ROBOTSTXT;
+            User-Agent: *
+            Disallow:
+            ROBOTSTXT;
 
         $robotsTxt = (new Parser())->parse($robotsTxtContent);
 
@@ -43,9 +43,9 @@ ROBOTSTXT;
     public function test_parse_one_group_with_single_user_agent(): void
     {
         $robotsTxtContent = <<<ROBOTSTXT
-User-Agent: *
-Disallow: ./foo.html
-ROBOTSTXT;
+            User-Agent: *
+            Disallow: ./foo.html
+            ROBOTSTXT;
 
         $robotsTxt = (new Parser())->parse($robotsTxtContent);
 
@@ -62,10 +62,10 @@ ROBOTSTXT;
     public function test_parse_one_group_with_multiple_user_agents(): void
     {
         $robotsTxtContent = <<<ROBOTSTXT
-User-Agent: *
-User-Agent: FooBot
-Disallow: ./foo.html
-ROBOTSTXT;
+            User-Agent: *
+            User-Agent: FooBot
+            Disallow: ./foo.html
+            ROBOTSTXT;
 
         $robotsTxt = (new Parser())->parse($robotsTxtContent);
 
@@ -82,16 +82,16 @@ ROBOTSTXT;
     public function test_parse_multiple_groups_with_single_user_agent(): void
     {
         $robotsTxtContent = <<<ROBOTSTXT
-User-Agent: *
-Disallow: ./something.html
+            User-Agent: *
+            Disallow: ./something.html
 
-User-Agent: FooBot
-Disallow: ./foo.html
+            User-Agent: FooBot
+            Disallow: ./foo.html
 
-user-agent: BarBot
-Disallow: ./bar.html
-Allow: ./something.html
-ROBOTSTXT;
+            user-agent: BarBot
+            Disallow: ./bar.html
+            Allow: ./something.html
+            ROBOTSTXT;
 
         $robotsTxt = (new Parser())->parse($robotsTxtContent);
 
@@ -123,19 +123,19 @@ ROBOTSTXT;
     public function test_parse_multiple_groups_with_multiple_user_agents(): void
     {
         $robotsTxtContent = <<<ROBOTSTXT
-User-Agent: *
-Disallow: /admin
-Disallow: /exclusive
+            User-Agent: *
+            Disallow: /admin
+            Disallow: /exclusive
 
-User-Agent: FooBot
-User-Agent: BarBot
-Disallow: ./foo.html
+            User-Agent: FooBot
+            User-Agent: BarBot
+            Disallow: ./foo.html
 
-User-Agent: BazBot
-User-Agent: CrwlrBot
-User-Agent: ExampleBot
-Allow: /exclusive
-ROBOTSTXT;
+            User-Agent: BazBot
+            User-Agent: CrwlrBot
+            User-Agent: ExampleBot
+            Allow: /exclusive
+            ROBOTSTXT;
 
         $robotsTxt = (new Parser())->parse($robotsTxtContent);
 
@@ -166,9 +166,9 @@ ROBOTSTXT;
     public function test_parse_single_disallow_rule(): void
     {
         $robotsTxtContent = <<<ROBOTSTXT
-User-Agent: ExampleBot
-Disallow : /example
-ROBOTSTXT;
+            User-Agent: ExampleBot
+            Disallow : /example
+            ROBOTSTXT;
 
         $robotsTxt = (new Parser())->parse($robotsTxtContent);
 
@@ -180,11 +180,11 @@ ROBOTSTXT;
     public function test_parse_multiple_disallow_rules(): void
     {
         $robotsTxtContent = <<<ROBOTSTXT
-User-Agent: ExampleBot
-Disallow : /example
-disallow: /secret
-Disallow: /another-secret
-ROBOTSTXT;
+            User-Agent: ExampleBot
+            Disallow : /example
+            disallow: /secret
+            Disallow: /another-secret
+            ROBOTSTXT;
 
         $robotsTxt = (new Parser())->parse($robotsTxtContent);
 
@@ -196,15 +196,15 @@ ROBOTSTXT;
     public function test_parse_multiple_disallow_rules_to_multiple_user_agent_groups(): void
     {
         $robotsTxtContent = <<<ROBOTSTXT
-User-Agent: ExampleBot
-Disallow : /example
-disallow: /secret
-Disallow: /another-secret
+            User-Agent: ExampleBot
+            Disallow : /example
+            disallow: /secret
+            Disallow: /another-secret
 
-User-Agent: AnotherExampleBot
-Disallow: /super-secret
-Disallow: /just-disallowed
-ROBOTSTXT;
+            User-Agent: AnotherExampleBot
+            Disallow: /super-secret
+            Disallow: /just-disallowed
+            ROBOTSTXT;
 
         $robotsTxt = (new Parser())->parse($robotsTxtContent);
 
@@ -220,9 +220,9 @@ ROBOTSTXT;
     public function test_parse_single_allow_rule(): void
     {
         $robotsTxtContent = <<<ROBOTSTXT
-User-Agent: FooBot
-allow: /foo-bar
-ROBOTSTXT;
+            User-Agent: FooBot
+            allow: /foo-bar
+            ROBOTSTXT;
 
         $robotsTxt = (new Parser())->parse($robotsTxtContent);
 
@@ -234,11 +234,11 @@ ROBOTSTXT;
     public function test_parse_multiple_allow_rules(): void
     {
         $robotsTxtContent = <<<ROBOTSTXT
-User-Agent: BarBot
-Allow : /contact
- Allow: /articles
-Allow: /news
-ROBOTSTXT;
+            User-Agent: BarBot
+            Allow : /contact
+             Allow: /articles
+            Allow: /news
+            ROBOTSTXT;
 
         $robotsTxt = (new Parser())->parse($robotsTxtContent);
 
@@ -250,15 +250,15 @@ ROBOTSTXT;
     public function test_parse_multiple_allow_rules_to_multiple_user_agent_groups(): void
     {
         $robotsTxtContent = <<<ROBOTSTXT
-User-Agent: BarBot
-Allow : /contact
- Allow: /articles
-Allow: /news
+            User-Agent: BarBot
+            Allow : /contact
+             Allow: /articles
+            Allow: /news
 
-User-Agent: BazBot
-Allow: /articles
-Allow: /guestbook
-ROBOTSTXT;
+            User-Agent: BazBot
+            Allow: /articles
+            Allow: /guestbook
+            ROBOTSTXT;
 
         $robotsTxt = (new Parser())->parse($robotsTxtContent);
 
@@ -274,21 +274,21 @@ ROBOTSTXT;
     public function test_parse_mixed_disallow_and_allow_rules_to_multiple_user_agent_groups(): void
     {
         $robotsTxtContent = <<<ROBOTSTXT
-User-Agent: *
-Disallow: /hidden
-Disallow: /hidden-for-most-bots
+            User-Agent: *
+            Disallow: /hidden
+            Disallow: /hidden-for-most-bots
 
-User-Agent: CrwlrBot
-Disallow: /lorem
-Allow: /hidden
-Allow: /hidden-for-most-bots
+            User-Agent: CrwlrBot
+            Disallow: /lorem
+            Allow: /hidden
+            Allow: /hidden-for-most-bots
 
-User-Agent: SomeBot
-User-Agent: SomeOtherBot
-Allow: /hidden-for-most-bots
-Disallow: /something
-Disallow: /something-else
-ROBOTSTXT;
+            User-Agent: SomeBot
+            User-Agent: SomeOtherBot
+            Allow: /hidden-for-most-bots
+            Disallow: /something
+            Disallow: /something-else
+            ROBOTSTXT;
 
         $robotsTxt = (new Parser())->parse($robotsTxtContent);
 
@@ -318,21 +318,33 @@ ROBOTSTXT;
         $this->assertArrayOfPatterns(['/hidden-for-most-bots'], $group3->allowedPatterns());
     }
 
+    public function test_it_works_correctly_when_there_is_hidden_whitespace_at_the_beginning_of_a_line(): void
+    {
+        $robotsTxtContent = <<<ROBOTSTXT
+             ­﻿  ⁠​           ⠀͏‌User-agent: *
+             ­﻿  ⁠​           ⠀͏‌Disallow: /something
+            ROBOTSTXT;
+
+        $robotsTxt = (new Parser())->parse($robotsTxtContent);
+
+        $this->assertFalse($robotsTxt->isAllowed('/something', 'any'));
+    }
+
     public function test_parse_sitemap_lines(): void
     {
         $robotsTxtContent = <<<ROBOTSTXT
-User-Agent: *
-Disallow: 
+            User-Agent: *
+            Disallow:
 
-User-Agent: BadBot
-Disallow: /
+            User-Agent: BadBot
+            Disallow: /
 
-Sitemap: https://www.example.com/sitemap1.xml
-sitemap: https://www.example.com/sitemap2.xml
+            Sitemap: https://www.example.com/sitemap1.xml
+            sitemap: https://www.example.com/sitemap2.xml
 
- Sitemap: https://www.example.org/sitemap3.xml
+             Sitemap: https://www.example.org/sitemap3.xml
 
-ROBOTSTXT;
+            ROBOTSTXT;
 
         $robotsTxt = (new Parser())->parse($robotsTxtContent);
 

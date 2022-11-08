@@ -43,7 +43,10 @@ final class Parser
      */
     private function getLine(array $lines, int $lineNumber): string
     {
-        return trim($lines[$lineNumber]);
+        return trim(
+            $lines[$lineNumber],
+            " \n\r\t\v\x00 ­﻿  ⁠​           ⠀͏‌"
+        );
     }
 
     /**
