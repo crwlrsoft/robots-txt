@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.1] - 2022-11-08
+### Fixed
+- The `Parser` now also trims hidden whitespace characters that aren't covered by PHP's `trim()` function by default. Such characters at the beginning of a line can cause parsing to fail, because it's important that user-agent and rule lines actually start with the corresponding keywords.
+
 ## [1.1.0] - 2022-09-23
 ### Added
 - Method `isExplicitlyNotAllowedFor()` that ignores rules for wildcard user-agent (`*`) and checks if some path is explicitly not allowed for a certain user-agent.
