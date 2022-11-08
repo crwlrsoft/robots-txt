@@ -6,6 +6,40 @@ use Crwlr\RobotsTxt\Exceptions\InvalidRobotsTxtFileException;
 
 final class Parser
 {
+    public __construct()
+    {
+        $whiteSpaceList=[
+            "\x20", // space
+            "\n", // new line
+            "\r", // carridge return
+            "\t", // horizontal tab
+            "\v", // vertical tab
+            "\x00", // NULL character
+            "\xc2\xa0", // name
+            "\xc2\xad", // name
+            "\xef\xbb\xbf", // name
+            "\xe2\x80\xaf", // name
+            "\xe2\x81\x9f", // name
+            "\xe2\x81\xa0", // name
+            "\xe2\x80\x8b", // name
+            "\xe2\x80\x8a", // name
+            "\xe2\x80\x86", // name
+            "\xe2\x80\x89", // name
+            "\xe2\x80\x88", // name
+            "\xe2\x80\x85", // name
+            "\xe2\x80\x84", // name
+            "\xe2\x80\x87", // name
+            "\xe2\x80\x82", // name
+            "\xe2\x80\x83", // name
+            "\xe2\x80\x80", // name
+            "\xe2\x80\x81", // name
+            "\xe2\xa0\x80", // name
+            "\xcd\x8f", // name
+            "\xe2\x80\x8c", // name
+        ];
+        $this->whiteSpaces = implode('', $whiteSpaceList);
+    }
+
     /**
      * @throws InvalidRobotsTxtFileException
      */
@@ -43,10 +77,7 @@ final class Parser
      */
     private function getLine(array $lines, int $lineNumber): string
     {
-        return trim(
-            $lines[$lineNumber],
-            " \n\r\t\v\x00 ­﻿  ⁠​           ⠀͏‌"
-        );
+        return trim($lines[$lineNumber], $this->whiteSpaces);
     }
 
     /**
