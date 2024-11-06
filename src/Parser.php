@@ -45,7 +45,7 @@ final class Parser
     {
         return trim(
             $lines[$lineNumber],
-            " \n\r\t\v\x00 ­﻿  ⁠​           ⠀͏‌"
+            " \n\r\t\v\x00 ­﻿  ⁠​           ⠀͏‌",
         );
     }
 

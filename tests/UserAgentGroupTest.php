@@ -65,7 +65,7 @@ final class UserAgentGroupTest extends TestCase
     {
         array_walk(
             $disallowedPatterns,
-            fn (string $pattern) => $this->userAgentGroup->addDisallowedPattern(new RulePattern($pattern))
+            fn(string $pattern) => $this->userAgentGroup->addDisallowedPattern(new RulePattern($pattern)),
         );
         $this->userAgentGroup->addAllowedPattern(new RulePattern($allowedPattern));
         $this->assertTrue($this->userAgentGroup->isAllowed($uri));
