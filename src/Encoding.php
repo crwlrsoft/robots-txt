@@ -23,7 +23,7 @@ final class Encoding
             trigger_error(
                 "Failed to Decode percent encoded ASCII characters. Preg error: \n" . preg_last_error() . ": " .
                     preg_last_error_msg(),
-                E_USER_WARNING
+                E_USER_WARNING,
             );
 
             return $path;

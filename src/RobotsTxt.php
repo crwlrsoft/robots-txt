@@ -17,7 +17,7 @@ final class RobotsTxt
         foreach ($userAgentGroups as $userAgentGroup) {
             if (!$userAgentGroup instanceof UserAgentGroup) {
                 throw new InvalidArgumentException(
-                    'Argument $userAgentGroups must exclusively contain objects of type UserAgentGroup.'
+                    'Argument $userAgentGroups must exclusively contain objects of type UserAgentGroup.',
                 );
             }
         }
