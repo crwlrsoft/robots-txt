@@ -25,15 +25,11 @@ final class RulePattern
      */
     public function matches(string|Url $uri): bool
     {
-        $path = $uri instanceof Url ? $uri->path() : Url::parse($uri)->path();
+        $pathQueryFragment = $uri instanceof Url ? $uri->relative() : Url::parse($uri)->relative();
 
-        if (!is_string($path)) {
-            return false;
-        }
+        $pathQueryFragment = Encoding::decodePercentEncodedAsciiCharactersInPath($pathQueryFragment);
 
-        $path = Encoding::decodePercentEncodedAsciiCharactersInPath($path);
-
-        return preg_match($this->preparedRegexPattern(), $path) === 1;
+        return preg_match($this->preparedRegexPattern(), $pathQueryFragment) === 1;
     }
 
     private function preparedRegexPattern(): string
