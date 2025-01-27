@@ -357,6 +357,22 @@ final class ParserTest extends TestCase
         ], $robotsTxt->sitemaps());
     }
 
+    public function test_it_uses_not_only_the_path_but_also_the_query_when_matching(): void
+    {
+        $robotsTxtContent = <<<ROBOTSTXT
+            User-agent: *
+            Disallow: /?foo
+            ROBOTSTXT;
+
+        $robotsTxt = (new Parser())->parse($robotsTxtContent);
+
+        $this->assertFalse($robotsTxt->isAllowed('/?foo', 'MyBot'));
+
+        $this->assertFalse($robotsTxt->isAllowed('/?foo=bar', 'MyBot'));
+
+        $this->assertTrue($robotsTxt->isAllowed('/yo?foo=bar', 'MyBot'));
+    }
+
     /**
      * @param string[] $expected
      * @param RulePattern[] $actual
