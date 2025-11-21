@@ -14,6 +14,7 @@ return (new Config())
         'strict_param' => true,
         'array_syntax' => ['syntax' => 'short'],
         'no_unused_imports' => true,
+        'operator_linebreak' => ['only_booleans' => true, 'position' => 'end'],
     ])
     ->setRiskyAllowed(true)
     ->setUsingCache(true);
