@@ -1,6 +1,7 @@
 <phpunit bootstrap="vendor/autoload.php"
          colors="true"
-         printerClass="Sempro\PHPUnitPrettyPrinter\PrettyPrinterForPhpUnit9">
+         displayDetailsOnTestsThatTriggerDeprecations="true"
+         displayDetailsOnPhpunitDeprecations="true">
     <php>
         <env name="PHPUNIT_PRETTY_PRINT_PROGRESS" value="true" />
     </php>

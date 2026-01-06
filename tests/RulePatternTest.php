@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Crwlr\RobotsTxt\RulePattern;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class RulePatternTest extends TestCase
@@ -10,7 +11,7 @@ final class RulePatternTest extends TestCase
     /**
      * @return Generator&iterable<string[]> [$pattern, $uri]
      */
-    public function validPatternProvider(): Generator
+    public static function validPatternProvider(): Generator
     {
         yield 'Exact match'                                   => ['/home',              '/home'];
         yield 'Partial match'                                 => ['/jobs/controlling/', '/company/jobs/controlling/controller-f-m-x-2021-10-23'];
@@ -19,9 +20,7 @@ final class RulePatternTest extends TestCase
         yield 'URI that has percent encoded ASCII characters' => ['/foo/bar',           '/foo/b%61r'];
     }
 
-    /**
-     * @dataProvider validPatternProvider
-     */
+    #[DataProvider('validPatternProvider')]
     public function test_valid_patterns(string $pattern, string $uri): void
     {
         $this->assertTrue((new RulePattern($pattern))->matches($uri));

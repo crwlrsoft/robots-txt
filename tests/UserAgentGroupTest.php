@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Crwlr\RobotsTxt\RulePattern;
 use Crwlr\RobotsTxt\UserAgentGroup;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 final class UserAgentGroupTest extends TestCase
@@ -18,7 +19,7 @@ final class UserAgentGroupTest extends TestCase
     /**
      * @return Generator&iterable<array<string[]|string>> [$userAgents[], $contains]
      */
-    public function containedUserAgentProvider(): Generator
+    public static function containedUserAgentProvider(): Generator
     {
         yield 'Exact match'                => [['GoogleBot', 'FooBot', 'CrwlrBot',], 'FooBot'];
         yield 'Case insensitive uppercase' => [['GoogleBot', 'FooBot', 'CrwlrBot',], 'foobot'];
@@ -29,7 +30,7 @@ final class UserAgentGroupTest extends TestCase
     /**
      * @return Generator&iterable<string[],string,string> [$disallowedPatterns[], $allowedPattern, $uri]
      */
-    public function allowedRulePatternProvider(): Generator
+    public static function allowedRulePatternProvider(): Generator
     {
         yield 'No matching rules'   => [['/admin', '/secret', ], '/secret/notsosecret', '/contact'];
         yield 'Only matching rules' => [['/admin',            ], '/home',               'home'];
@@ -40,27 +41,26 @@ final class UserAgentGroupTest extends TestCase
     /**
      * @return Generator&iterable<string[]> [$disallowedPatterns, $allowedPattern, $uri]
      */
-    public function notAllowedRulePatternProvider(): Generator
+    public static function notAllowedRulePatternProvider(): Generator
     {
         yield 'Only matching dissallowed rule' => ['/admin',                      '/home',   '/admin'];
         yield 'More specific rules'            => ['/secret/of-the-yaya-sisters', '/secret', '/secret/of-the-yaya-sisters'];
     }
 
     /**
-     * @dataProvider containedUserAgentProvider
-     *
      * @param string[] $userAgents
      */
+    #[DataProvider('containedUserAgentProvider')]
     public function test_contained_user_agent(array $userAgents, string $contains): void
     {
         $this->assertTrue((new UserAgentGroup($userAgents))->contains($contains));
     }
 
     /**
-     * @dataProvider allowedRulePatternProvider
-     *
      * @param string[] $disallowedPatterns
+     * @throws Exception
      */
+    #[DataProvider('allowedRulePatternProvider')]
     public function test_is_allowed(array $disallowedPatterns, string $allowedPattern, string $uri): void
     {
         array_walk(
@@ -71,9 +71,7 @@ final class UserAgentGroupTest extends TestCase
         $this->assertTrue($this->userAgentGroup->isAllowed($uri));
     }
 
-    /**
-     * @dataProvider notAllowedRulePatternProvider
-     */
+    #[DataProvider('notAllowedRulePatternProvider')]
     public function test_is_not_allowed(string $disallowedPatterns, string $allowedPattern, string $uri): void
     {
         $this->userAgentGroup->addDisallowedPattern(new RulePattern($disallowedPatterns));
